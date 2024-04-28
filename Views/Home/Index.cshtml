@@ -1,8 +1,25 @@
-﻿@{
-ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<BookStore.Models.Author>
+    @{
+    ViewData["Title"] = "Home Page";
+    }
 
-<div class="text-center">
-    <h1 class="display-4">@ViewData["Title"]</h1>
-    <p>This is the home page</p>
-</div>
+    <div class="text-center">
+        <h1 class="display-4">@ViewData["Title"]</h1>
+        <p>Welcome to your new app.</p>
+
+        @foreach (var item in Model) {
+
+        <div>
+            @Html.DisplayFor(modelItem => item.Name)
+            <p>books:</p>
+            <ul>
+                @foreach (var book in item.Books)
+                {
+                <li>@book.Title</li>
+                }
+            </ul>
+        </div>
+
+        }
+
+    </div>

@@ -1,21 +1,25 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using BookStore.Models;
+using BookStore.Data;
 
 namespace BookStore.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly BookStoreContext _context;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(BookStoreContext context)
     {
-        _logger = logger;
+        _context = context;
     }
 
-    public IActionResult Index()
+    public async Task<ActionResult> Index()
     {
-        return View();
+        var authors = await _context.Author.ToListAsync();
+        authors.ForEach(a => a.Books = _context.Book.Where(b => b.AuthorId == a.Id).ToList());
+        return View(authors);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
