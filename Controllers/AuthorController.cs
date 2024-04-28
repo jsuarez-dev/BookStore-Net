@@ -142,6 +142,14 @@ namespace BookStore.Controllers
             var author = await _context.Author.FindAsync(id);
             if (author != null)
             {
+                var books = _context.Book.Where(b => b.AuthorId == author.Id);
+                if (books != null)
+                {
+                    foreach (var book in books)
+                    {
+                        _context.Book.Remove(book);
+                    }
+                }
                 _context.Author.Remove(author);
             }
 
