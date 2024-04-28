@@ -8,6 +8,8 @@ public class Book
 
     [Required]
     public string? Title { get; set; }
+    public int? AuthorId { get; set; }
     public Author? Author { get; set; }
+    public int? Price { get; set; }
 }
 
