@@ -5,8 +5,14 @@ using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<BookStoreContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("BookStoreContext") ?? throw new InvalidOperationException("Connection string 'BookStoreContext' not found.")));
+// Add services to the container.
+var dbName = builder.Configuration.GetConnectionString("BookStoreContext");
+
+if (string.IsNullOrEmpty(dbName))
+{
+    throw new InvalidOperationException("Connection string 'BookStoreContext' not found.");
+}
+builder.Services.AddDbContext<BookStoreContext>(options => options.UseSqlite(dbName));
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<BookStoreContext>();
 

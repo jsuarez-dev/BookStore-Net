@@ -4,20 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using BookStore.Models;
-using BookStore.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace BookStore.Data
+
+namespace BookStore.Data;
+
+public class BookStoreContext : IdentityDbContext<IdentityUser>
 {
-    public class BookStoreContext : DbContext
+    public BookStoreContext(DbContextOptions<BookStoreContext> options)
+        : base(options)
     {
-        public BookStoreContext(DbContextOptions<DbContext> options)
-            : base(options)
-        {
-        }
-
-        public BookStoreIdentityDbContext User { get; set; } = default!;
-
-        public DbSet<BookStore.Models.Author> Author { get; set; } = default!;
-        public DbSet<BookStore.Models.Book> Book { get; set; } = default!;
     }
+
+    public DbSet<Author> Author { get; set; } = default!;
+    public DbSet<Book> Book { get; set; } = default!;
 }
